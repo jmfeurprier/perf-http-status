@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         bootstrap="./test/unit/bootstrap.php">
+
+    <testsuites>
+        <testsuite>
+          <directory>./test/unit/perf</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+      <whitelist addUncoveredFilesFromWhitelist="true">
+        <directory suffix=".php">./lib</directory>
+      </whitelist>
+    </filter>
+
+</phpunit>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project basedir="." default="help">
+
+	<property name="rootdir" value="${project.basedir}/" override="true" />
+	<property name="bindir" value="${rootdir}vendor/bin/" override="false" />
+
+	<target name="help">
+		<echo message="Available targets" />
+		<echo message="=================" />
+		<echo message="phing phpunit   Runs all unit tests" />
+		<echo message="phing phpcs     Runs PHP code style validation" />
+		<echo message="phing phpcpd    Runs PHP code duplication detector" />
+		<echo message="phing phpmd     Runs PHP mess detector" />
+		<echo message="phing codecheck Calls every quality tool" />
+		<echo message="phing coverage  Runs unit tests and generates code coverage report" />
+		<echo message="phing help      Shows this help screen" />
+	</target>
+
+	<target name="phpunit">
+		<exec command="${bindir}phpunit -c ${rootdir}phpunit.xml" checkreturn="false" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="phpcs" description="PHP code style validation">
+		<exec command="${bindir}phpcs -p --extensions=php --standard=PSR2 --report=full ${rootdir}lib" escape="false" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="phpcpd" description="PHP code duplication detector">
+		<exec command="${bindir}phpcpd --min-lines 7 --min-tokens 65 ${rootdir}lib" checkreturn="false" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="phpmd" description="PHP mess detector">
+		<exec command="${bindir}phpmd ${rootdir}lib text codesize,unusedcode,design" checkreturn="false" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="codecheck" depends="phpunit,phpcs,phpcpd,phpmd" />
+
+	<target name="coverage">
+		<exec command="${bindir}phpunit --coverage-html ${rootdir}build/coverage/ -c ${rootdir}phpunit.xml" checkreturn="false" logoutput="true" passthru="true" />
+	</target>
+
+</project>

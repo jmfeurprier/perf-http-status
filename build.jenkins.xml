@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<project basedir="." default="help">
+
+	<property name="rootdir" value="${project.basedir}/" override="true" />
+	<property name="bindir" value="${rootdir}vendor/bin/" override="false" />
+
+	<target name="help">
+		<echo message="Available targets" />
+		<echo message="=================" />
+		<echo message="phing build Builds project for Jenkins" />
+		<echo message="phing help  Shows this help screen" />
+	</target>
+
+	<target name="build" depends="prepare,phpunit,phpcs,phpcpd,pdepend,phpmd" />
+
+	<target name="prepare" depends="clean">
+		<mkdir dir="${rootdir}build/api/" />
+		<mkdir dir="${rootdir}build/coverage/" />
+		<mkdir dir="${rootdir}build/logs/" />
+		<mkdir dir="${rootdir}build/pdepend/" />
+		<mkdir dir="${rootdir}build/phpdox/" />
+	</target>
+
+	<target name="clean">
+		<if>
+			<available file="${rootdir}build/" type="dir" />
+			<then>
+				<delete dir="${rootdir}build/" />
+			</then>
+		</if>
+	</target>
+
+	<target name="phpunit">
+		<exec command="${bindir}phpunit -c ${rootdir}phpunit.xml --colors --log-junit ${rootdir}build/logs/junit.xml --coverage-clover ${rootdir}build/logs/clover.xml --coverage-html ${rootdir}build/coverage/ --coverage-crap4j ${rootdir}build/logs/crap4j.xml" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="phpcs">
+		<exec command="${bindir}phpcs -p --extensions=php --standard=PSR2 --report=checkstyle --report-file=${rootdir}build/logs/checkstyle.xml ${rootdir}lib" escape="false" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="phpcpd">
+		<exec command="${bindir}phpcpd --min-lines 7 --min-tokens 65 --log-pmd ${rootdir}build/logs/pmd-cpd.xml ${rootdir}lib" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="pdepend">
+		<exec command="${bindir}pdepend --jdepend-xml=${rootdir}build/logs/jdepend.xml --jdepend-chart=${rootdir}build/pdepend/dependencies.svg --overview-pyramid=${rootdir}build/pdepend/overview-pyramid.svg ${rootdir}lib" escape="false" logoutput="true" passthru="true" />
+	</target>
+
+	<target name="phpmd">
+		<exec command="${bindir}phpmd ${rootdir}lib xml codesize,unusedcode,design --reportfile ${rootdir}build/logs/pmd.xml" logoutput="true" passthru="true" />
+	</target>
+
+</project>
