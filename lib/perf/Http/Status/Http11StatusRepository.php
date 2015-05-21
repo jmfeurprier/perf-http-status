@@ -71,7 +71,7 @@ class Http11StatusRepository implements HttpStatusRepository
             throw new \DomainException("Unknown HTTP status code: '{$httpStatusCode}'.");
         }
 
-        $reason = $this->reasons[$httpStatusCode];
+        $reason = $this->statuses[$httpStatusCode];
 
         return new HttpStatus('1.1', $httpStatusCode, $reason);
     }
@@ -89,7 +89,7 @@ class Http11StatusRepository implements HttpStatusRepository
             throw new \InvalidArgumentException("Invalid HTTP status code.");
         }
 
-        if (array_key_exists($httpStatusCode, $this->reasons)) {
+        if (array_key_exists($httpStatusCode, $this->statuses)) {
             return true;
         }
 
