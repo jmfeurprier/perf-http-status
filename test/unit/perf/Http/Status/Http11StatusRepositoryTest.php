@@ -21,7 +21,7 @@ class Http11StatusRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWithKnownStatus()
     {
-        $result = $repository->get(404);
+        $result = $this->repository->get(404);
 
         $expectedHeader = "HTTP/1.1 404 Not Found";
 
