@@ -41,6 +41,16 @@ class Http11StatusRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid HTTP status code.
+     */
+    public function testGetWithInvalidStatusType()
+    {
+        $this->repository->get("404");
+    }
+
+    /**
+     *
      */
     public function testHasWithKnownStatus()
     {
@@ -57,5 +67,15 @@ class Http11StatusRepositoryTest extends \PHPUnit_Framework_TestCase
         $result = $this->repository->has(999999);
 
         $this->assertFalse($result);
+    }
+
+    /**
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid HTTP status code.
+     */
+    public function testHasWithInvalidStatusType()
+    {
+        $this->repository->has("404");
     }
 }
