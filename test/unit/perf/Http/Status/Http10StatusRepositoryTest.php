@@ -44,7 +44,7 @@ class Http10StatusRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasWithKnownStatus()
     {
-        $result = $this->repository->get(404);
+        $result = $this->repository->has(404);
 
         $this->assertTrue($result);
     }
@@ -54,7 +54,7 @@ class Http10StatusRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasWithUnknownStatus()
     {
-        $result = $this->repository->get(999999);
+        $result = $this->repository->has(999999);
 
         $this->assertFalse($result);
     }
