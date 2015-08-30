@@ -19,6 +19,16 @@ class Http11StatusRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
+    public function testCreate()
+    {
+        $result = Http11StatusRepository::create();
+
+        $this->assertInstanceOf('\\perf\\Http\\Status\\Http11StatusRepository', $result);
+    }
+
+    /**
+     *
+     */
     public function testGetWithKnownStatus()
     {
         $result = $this->repository->get(404);

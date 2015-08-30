@@ -34,6 +34,22 @@ class Http10StatusRepository implements HttpStatusRepository
     );
 
     /**
+     * Static constructor.
+     *
+     * @return Http10StatusRepository
+     */
+    public function create()
+    {
+        static $instance;
+
+        if (null === $instance) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
+
+    /**
      *
      *
      * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
