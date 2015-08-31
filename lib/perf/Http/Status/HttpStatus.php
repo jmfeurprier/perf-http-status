@@ -46,7 +46,37 @@ class HttpStatus
     }
 
     /**
+     * Returns HTTP version.
      *
+     * @return string
+     */
+    public function getHttpVersion()
+    {
+        return $this->httpVersion;
+    }
+
+    /**
+     * Returns HTTP status code.
+     *
+     * @return int
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Returns HTTP status reason.
+     *
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * Converts HTTP status into a HTTP header string.
      *
      * @return string
      */
