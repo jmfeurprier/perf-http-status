@@ -38,7 +38,7 @@ class Http10StatusRepository implements HttpStatusRepository
      *
      * @return Http10StatusRepository
      */
-    public function create()
+    public static function create()
     {
         static $instance;
 

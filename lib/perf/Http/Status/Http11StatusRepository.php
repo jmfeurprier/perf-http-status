@@ -62,7 +62,7 @@ class Http11StatusRepository implements HttpStatusRepository
      *
      * @return Http11StatusRepository
      */
-    public function create()
+    public static function create()
     {
         static $instance;
 
