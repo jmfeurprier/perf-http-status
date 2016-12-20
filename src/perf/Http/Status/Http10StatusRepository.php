@@ -50,10 +50,10 @@ class Http10StatusRepository implements HttpStatusRepository
     }
 
     /**
-     *
+     * Builds a HTTP status according to provided HTTP status code.
      *
      * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
-     * @return string
+     * @return HttpStatus
      * @throws \DomainException
      * @throws \InvalidArgumentException
      */
@@ -69,7 +69,7 @@ class Http10StatusRepository implements HttpStatusRepository
     }
 
     /**
-     * Builds a HTTP status header string according to specified HTTP status code and HTTP version.
+     * Tells wether provided http status code exists.
      *
      * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
      * @return bool

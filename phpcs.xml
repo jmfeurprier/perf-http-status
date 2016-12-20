@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="">
+	<description></description>
+
+	<arg name="extensions" value="php" />
+
+	<file>src</file>
+	<file>test/unit</file>
+
+	<rule ref="PSR2" />
+</ruleset>

@@ -3,39 +3,62 @@
 
 	<property name="rootdir" value="${project.basedir}/" override="true" />
 	<property name="bindir" value="${rootdir}vendor/bin/" override="false" />
+	<property name="srcdir" value="${rootdir}src/" override="false" />
 
-	<target name="help">
-		<echo message="Available targets" />
-		<echo message="=================" />
-		<echo message="phing phpunit   Runs all unit tests" />
-		<echo message="phing phpcs     Runs PHP code style validation" />
-		<echo message="phing phpcpd    Runs PHP code duplication detector" />
-		<echo message="phing phpmd     Runs PHP mess detector" />
-		<echo message="phing codecheck Calls every quality tool" />
-		<echo message="phing coverage  Runs unit tests and generates code coverage report" />
-		<echo message="phing help      Shows this help screen" />
+	<target name="help" description="Shows available targets">
+		<exec executable="${bindir}phing" passthru="true">
+			<arg value="-f" />
+			<arg value="${phing.file}" />
+			<arg value="-l" />
+		</exec>
 	</target>
 
-	<target name="phpunit">
-		<exec command="${bindir}phpunit -c ${rootdir}phpunit.xml" checkreturn="false" logoutput="true" passthru="true" />
+	<target name="lint" description="Performs syntax check of sourcecode files">
+		<phplint haltonfailure="true">
+			<fileset dir="${rootdir}">
+				<include name="src/" />
+				<include name="test/unit/" />
+			</fileset>
+		</phplint>
 	</target>
 
-	<target name="phpcs" description="PHP code style validation">
-		<exec command="${bindir}phpcs -p --extensions=php --standard=PSR2 --report=full ${rootdir}lib" escape="false" logoutput="true" passthru="true" />
+	<target name="phpunit" description="Runs unit tests with PHPUnit">
+		<exec executable="${bindir}phpunit" passthru="true">
+			<arg line="-c ${rootdir}phpunit.xml" />
+			<arg line="--verbose" />
+		</exec>
 	</target>
 
-	<target name="phpcpd" description="PHP code duplication detector">
-		<exec command="${bindir}phpcpd --min-lines 7 --min-tokens 65 ${rootdir}lib" checkreturn="false" logoutput="true" passthru="true" />
+	<target name="phpcs" description="Finds coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+		<exec executable="${bindir}phpcs" passthru="true">
+			<arg line="-p" />
+			<arg line="--report=full" />
+		</exec>
 	</target>
 
-	<target name="phpmd" description="PHP mess detector">
-		<exec command="${bindir}phpmd ${rootdir}lib text codesize,unusedcode,design" checkreturn="false" logoutput="true" passthru="true" />
+	<target name="phpcpd" description="Finds duplicate code using PHPCPD">
+		<exec executable="${bindir}phpcpd" passthru="true">
+			<arg line="--min-lines 7" />
+			<arg line="--min-tokens 65" />
+			<arg line="${srcdir}" />
+		</exec>
 	</target>
 
-	<target name="codecheck" depends="phpunit,phpcs,phpcpd,phpmd" />
+	<target name="phpmd" description="Performs project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+		<exec executable="${bindir}phpmd" passthru="true">
+			<arg line="${srcdir}" />
+			<arg line="text" />
+			<arg line="${rootdir}phpmd.xml" />
+		</exec>
+	</target>
 
-	<target name="coverage">
-		<exec command="${bindir}phpunit --coverage-html ${rootdir}build/coverage/ -c ${rootdir}phpunit.xml" checkreturn="false" logoutput="true" passthru="true" />
+	<target name="codecheck" depends="lint,phpunit,phpcs,phpcpd,phpmd" description="Runs code-related targets (lint, phpunit, etc)"/>
+
+	<target name="coverage" description="Runs code coverage with PHPUnit">
+		<exec executable="${bindir}phpunit" passthru="true">
+			<arg line="--coverage-html ${rootdir}build/coverage/" />
+			<arg line="-c ${rootdir}phpunit.xml" />
+		</exec>
 	</target>
 
 </project>
