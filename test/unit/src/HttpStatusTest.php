@@ -1,16 +1,11 @@
 <?php
 
-namespace perf\Http\Status;
+namespace perf\HttpStatus;
 
-/**
- *
- */
-class HttpStatusTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class HttpStatusTest extends TestCase
 {
-
-    /**
-     *
-     */
     public function testGetHttpVersion()
     {
         $httpVersion = '1.23';
@@ -22,9 +17,6 @@ class HttpStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($httpVersion, $status->getHttpVersion());
     }
 
-    /**
-     *
-     */
     public function testGetCode()
     {
         $httpVersion = '1.23';
@@ -36,9 +28,6 @@ class HttpStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($code, $status->getCode());
     }
 
-    /**
-     *
-     */
     public function testGetReason()
     {
         $httpVersion = '1.23';
@@ -50,9 +39,6 @@ class HttpStatusTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($reason, $status->getReason());
     }
 
-    /**
-     *
-     */
     public function testToHeader()
     {
         $httpVersion = '1.23';

@@ -8,10 +8,10 @@
 	convertWarningsToExceptions="true"
 	processIsolation="false"
 	stopOnFailure="false"
-	bootstrap="./test/unit/bootstrap.php">
+>
 
 	<testsuites>
-		<testsuite>
+		<testsuite name="default">
 			<directory>./test/unit/src</directory>
 		</testsuite>
 	</testsuites>

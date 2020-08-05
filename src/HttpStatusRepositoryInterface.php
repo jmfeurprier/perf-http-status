@@ -1,30 +1,28 @@
 <?php
 
-namespace perf\Http\Status;
+namespace perf\HttpStatus;
 
-/**
- *
- *
- */
-interface HttpStatusRepository
+use DomainException;
+
+interface HttpStatusRepositoryInterface
 {
-
     /**
      * Builds a HTTP status according to provided HTTP status code.
      *
      * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
+     *
      * @return HttpStatus
-     * @throws \DomainException
-     * @throws \InvalidArgumentException
+     *
+     * @throws DomainException
      */
-    public function get($httpStatusCode);
+    public function get(int $httpStatusCode): HttpStatus;
 
     /**
-     * Tells wether provided http status code exists.
+     * Tells wether provided HTTP status code exists.
      *
      * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
+     *
      * @return bool
-     * @throws \InvalidArgumentException
      */
-    public function has($httpStatusCode);
+    public function has(int $httpStatusCode): bool;
 }

@@ -36,14 +36,6 @@
 		</exec>
 	</target>
 
-	<target name="phpcpd" description="Finds duplicate code using PHPCPD">
-		<exec executable="${bindir}phpcpd" passthru="true">
-			<arg line="--min-lines 7" />
-			<arg line="--min-tokens 65" />
-			<arg line="${srcdir}" />
-		</exec>
-	</target>
-
 	<target name="phpmd" description="Performs project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
 		<exec executable="${bindir}phpmd" passthru="true">
 			<arg line="${srcdir}" />
@@ -52,7 +44,7 @@
 		</exec>
 	</target>
 
-	<target name="codecheck" depends="lint,phpunit,phpcs,phpcpd,phpmd" description="Runs code-related targets (lint, phpunit, etc)"/>
+	<target name="codecheck" depends="lint,phpunit,phpcs,phpmd" description="Runs code-related targets (lint, phpunit, etc)"/>
 
 	<target name="coverage" description="Runs code coverage with PHPUnit">
 		<exec executable="${bindir}phpunit" passthru="true">

@@ -1,20 +1,14 @@
 <?php
 
-namespace perf\Http\Status;
+namespace perf\HttpStatus;
 
-/**
- *
- *
- */
-class Http11StatusRepository implements HttpStatusRepository
+use DomainException;
+
+class Http11StatusRepository implements HttpStatusRepositoryInterface
 {
+    private const VERSION = '1.1';
 
-    /**
-     * Associative array matching HTTP status codes to HTTP status reasons.
-     *
-     * @var {int:string}
-     */
-    private $statuses = array(
+    private const STATUSES = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         200 => 'OK',
@@ -55,14 +49,9 @@ class Http11StatusRepository implements HttpStatusRepository
         503 => 'Service Unavailable',
         504 => 'Gateway Timeout',
         505 => 'HTTP Version Not Supported',
-    );
+    ];
 
-    /**
-     * Static constructor.
-     *
-     * @return Http11StatusRepository
-     */
-    public static function create()
+    public static function create(): self
     {
         static $instance;
 
@@ -74,41 +63,24 @@ class Http11StatusRepository implements HttpStatusRepository
     }
 
     /**
-     * Builds a HTTP status according to provided HTTP status code.
-     *
-     * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
-     * @return HttpStatus
-     * @throws \DomainException
-     * @throws \InvalidArgumentException
+     * {@inheritDoc}
      */
-    public function get($httpStatusCode)
+    public function get(int $httpStatusCode): HttpStatus
     {
         if (!$this->has($httpStatusCode)) {
-            throw new \DomainException("Unknown HTTP status code: '{$httpStatusCode}'.");
+            throw new DomainException("Unknown HTTP status code: '{$httpStatusCode}'.");
         }
 
-        $reason = $this->statuses[$httpStatusCode];
+        $reason = self::STATUSES[$httpStatusCode];
 
-        return new HttpStatus('1.1', $httpStatusCode, $reason);
+        return new HttpStatus(self::VERSION, $httpStatusCode, $reason);
     }
 
     /**
-     * Tells wether provided http status code exists.
-     *
-     * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
-     * @return bool
-     * @throws \InvalidArgumentException
+     * {@inheritDoc}
      */
-    public function has($httpStatusCode)
+    public function has(int $httpStatusCode): bool
     {
-        if (!is_int($httpStatusCode)) {
-            throw new \InvalidArgumentException("Invalid HTTP status code.");
-        }
-
-        if (array_key_exists($httpStatusCode, $this->statuses)) {
-            return true;
-        }
-
-        return false;
+        return array_key_exists($httpStatusCode, self::STATUSES);
     }
 }

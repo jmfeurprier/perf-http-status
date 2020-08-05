@@ -3,9 +3,8 @@
 
 	<property name="rootdir" value="${project.basedir}/" override="true" />
 	<property name="bindir" value="${rootdir}vendor/bin/" override="false" />
-	<property name="srcdir" value="${rootdir}src/" override="false" />
 
-	<target name="build" depends="prepare,lint,phpunit,phpcs,phpcpd,phpmd" />
+	<target name="build" depends="prepare,lint,phpunit,phpcs,phpmd" />
 
 	<target name="prepare" depends="clean">
 		<mkdir dir="${rootdir}build/coverage/" />
@@ -51,18 +50,9 @@
 		</exec>
 	</target>
 
-	<target name="phpcpd">
-		<exec executable="${bindir}phpcpd" passthru="true">
-			<arg line="--min-lines 7" />
-			<arg line="--min-tokens 65" />
-			<arg line="--log-pmd ${rootdir}build/logs/pmd-cpd.xml" />
-			<arg line="${srcdir}" />
-		</exec>
-	</target>
-
 	<target name="phpmd">
 		<exec executable="${bindir}phpmd" passthru="true">
-			<arg line="${srcdir}" />
+			<arg line="${rootdir}src" />
 			<arg line="xml" />
 			<arg line="${rootdir}phpmd.xml" />
 			<arg line="--reportfile ${rootdir}build/logs/pmd.xml" />
