@@ -2,27 +2,23 @@
 
 namespace perf\HttpStatus;
 
-use DomainException;
+use perf\HttpStatus\Exception\HttpProtocolNotFoundException;
+use perf\HttpStatus\Exception\HttpStatusNotFoundException;
 
 interface HttpStatusRepositoryInterface
 {
     /**
      * Builds a HTTP status according to provided HTTP status code.
      *
-     * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
+     * @param int    $httpStatusCode HTTP status code to use for the HTTP header string.
+     * @param string $httpVersion
      *
      * @return HttpStatus
      *
-     * @throws DomainException
+     * @throws HttpProtocolNotFoundException
+     * @throws HttpStatusNotFoundException
      */
-    public function get(int $httpStatusCode): HttpStatus;
+    public function get(int $httpStatusCode, string $httpVersion = null): HttpStatusInterface;
 
-    /**
-     * Tells wether provided HTTP status code exists.
-     *
-     * @param int $httpStatusCode HTTP status code to use for the HTTP header string.
-     *
-     * @return bool
-     */
-    public function has(int $httpStatusCode): bool;
+    public function has(int $httpStatusCode, string $httpVersion = null): bool;
 }

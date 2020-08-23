@@ -2,7 +2,7 @@
 
 namespace perf\HttpStatus;
 
-class HttpStatus
+class HttpStatus implements HttpStatusInterface
 {
     private string $httpVersion;
 

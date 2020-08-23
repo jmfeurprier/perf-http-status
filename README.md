@@ -16,9 +16,9 @@ composer require perf/http-status
 ```php
 <?php
 
-use perf\HttpStatus\Http11StatusRepository;
+use perf\HttpStatus\HttpStatusRepository;
 
-$repository = new Http11StatusRepository();
+$repository = HttpStatusRepository::createDefault();
 
 $httpStatus = $repository->get(404);
 
@@ -31,9 +31,9 @@ echo $httpStatus->toHeader(); //  Will print "HTTP/1.1 404 Not Found"
 ```php
 <?php
 
-use perf\HttpStatus\Http11StatusRepository;
+use perf\HttpStatus\HttpStatusRepository;
 
-$httpStatus = Http11StatusRepository::create()->get(404);
+$httpStatus = HttpStatusRepository::createDefault()->get(404);
 
 echo $httpStatus->getReason(); // Will print "Not Found"
 echo $httpStatus->toHeader(); //  Will print "HTTP/1.1 404 Not Found"
