@@ -123,13 +123,30 @@ class HttpStatusRepositoryTest extends TestCase
     private function givenProtocolWithHttpStatusCode(string $httpVersion, int $httpStatusCode): void
     {
         $httpStatus = $this->createMock(HttpStatusInterface::class);
-        $httpStatus->expects($this->any())->method('getHttpVersion')->willReturn($httpVersion);
-        $httpStatus->expects($this->any())->method('getCode')->willReturn($httpStatusCode);
+        $httpStatus
+            ->method('getHttpVersion')
+            ->willReturn($httpVersion)
+        ;
+        $httpStatus
+            ->method('getCode')
+            ->willReturn($httpStatusCode)
+        ;
 
         $protocol = $this->createMock(HttpProtocolInterface::class);
-        $protocol->expects($this->any())->method('getHttpVersion')->willReturn($httpVersion);
-        $protocol->expects($this->any())->method('has')->with($httpStatusCode)->willReturn(true);
-        $protocol->expects($this->any())->method('getHttpStatus')->with($httpStatusCode)->willReturn($httpStatus);
+        $protocol
+            ->method('getHttpVersion')
+            ->willReturn($httpVersion)
+        ;
+        $protocol
+            ->method('has')
+            ->with($httpStatusCode)
+            ->willReturn(true)
+        ;
+        $protocol
+            ->method('getHttpStatus')
+            ->with($httpStatusCode)
+            ->willReturn($httpStatus)
+        ;
 
         $this->protocols[] = $protocol;
     }
@@ -137,9 +154,23 @@ class HttpStatusRepositoryTest extends TestCase
     private function givenProtocolWithoutHttpStatusCode(string $httpVersion, int $httpStatusCode): void
     {
         $protocol = $this->createMock(HttpProtocolInterface::class);
-        $protocol->expects($this->any())->method('getHttpVersion')->willReturn($httpVersion);
-        $protocol->expects($this->any())->method('has')->with($httpStatusCode)->willReturn(false);
-        $protocol->expects($this->any())->method('getHttpStatus')->with($httpStatusCode)->willThrowException(new HttpStatusNotFoundException());
+
+        $protocol
+            ->method('getHttpVersion')
+            ->willReturn($httpVersion)
+        ;
+        $protocol
+            ->method('has')
+            ->with($httpStatusCode)
+            ->willReturn(false)
+        ;
+        $protocol
+            ->method('getHttpStatus')
+            ->with($httpStatusCode)
+            ->willThrowException(
+                new HttpStatusNotFoundException()
+            )
+        ;
 
         $this->protocols[] = $protocol;
     }
