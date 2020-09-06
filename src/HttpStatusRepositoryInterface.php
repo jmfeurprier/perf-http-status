@@ -10,10 +10,10 @@ interface HttpStatusRepositoryInterface
     /**
      * Builds a HTTP status according to provided HTTP status code.
      *
-     * @param int    $httpStatusCode HTTP status code to use for the HTTP header string.
-     * @param string $httpVersion
+     * @param int         $httpStatusCode HTTP status code to use for the HTTP header string.
+     * @param string|null $httpVersion
      *
-     * @return HttpStatus
+     * @return HttpStatusInterface
      *
      * @throws HttpProtocolNotFoundException
      * @throws HttpStatusNotFoundException
